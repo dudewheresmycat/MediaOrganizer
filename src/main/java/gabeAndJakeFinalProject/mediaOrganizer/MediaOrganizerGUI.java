@@ -1,6 +1,6 @@
-package JakeAndGabeFinalProject.MediaOrganizer;
+package gabeAndJakeFinalProject.mediaOrganizer;
 
-public class MediaOrganizerMain {
+public class MediaOrganizerGUI {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

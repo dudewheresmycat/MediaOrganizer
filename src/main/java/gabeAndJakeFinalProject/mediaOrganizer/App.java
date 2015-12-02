@@ -1,4 +1,4 @@
-package JakeAndGabeFinalProject.MediaOrganizer;
+package gabeAndJakeFinalProject.mediaOrganizer;
 
 /**
  * Hello world!
