@@ -5,8 +5,11 @@ import java.sql.*;
 import java.util.StringTokenizer;
 
 public class MediaDB {
+	public static void main(String[] args) throws SQLException{
+		createDatabase();
+	}
 	
-	public static void CreateDatabase() throws SQLException{
+	public static void createDatabase() throws SQLException{
 		Connection conn = DriverManager.getConnection(Environment.DB_URL);
 	
 		System.out.println("Connected to database!");
@@ -21,11 +24,16 @@ public class MediaDB {
 				+ "length double, " 
 				+ "genre varchar(30), "
 				+ "artist varchar(30), "
-				+ "filename varchar(255), "
+				+ "filename varchar(255) "
 				+ ")";
 		
 		stmt.execute(createTable);
 		System.out.println("Media table created.");
+		MediaUtility m = new MediaUtility();
+		
+		for(int i = 0 ; i < m.getMediafiles().size(); i++){
+			addMediaStmt(conn, i, m.getMediafiles().get(i).)
+		}
 		
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 

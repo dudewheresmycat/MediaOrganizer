@@ -10,6 +10,15 @@ public class MediaFile {
 	private String artist;
 	private String filename;
 	
+	public MediaFile(int id, String name, double length, String genre, String artist, String filename){
+		this.id = id;
+		this.name = name;
+		this.length = length;
+		this.genre = genre;
+		this.artist = artist;
+		this.filename = filename;
+	}
+	
 	private int getId() {
 		return id;
 	}
