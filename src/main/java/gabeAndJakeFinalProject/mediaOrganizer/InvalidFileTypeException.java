@@ -4,9 +4,9 @@ import java.util.StringTokenizer;
 
 public class InvalidFileTypeException extends Exception{
 	
-	public InvalidFileTypeException(String fileExtension){
+	public InvalidFileTypeException(String filename){
 		
-		super(" is not a valid file type for the Media Organizer, skipping");
+		super(String.format(" is not a valid file type for the Media Organizer, skipping file %s", filename));
 	}
 	public String getExtension(String filename){
 		StringTokenizer st = new StringTokenizer(filename, ".");

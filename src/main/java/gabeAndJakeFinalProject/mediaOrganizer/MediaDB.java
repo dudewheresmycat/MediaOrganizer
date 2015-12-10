@@ -38,7 +38,7 @@ public class MediaDB {
 		MediaUtility m = new MediaUtility();
 		
 		m.pullTags(m.pullMediaFromFolder());
-		ArrayList mediafiles = m.getMediafiles();
+		ArrayList<MediaFile> mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
 			MediaFile media = (MediaFile) mediafiles.get(i);
 			addMediaStmt(conn, i, media.getName(), media.getLength(),media.getGenre(),media.getArtist(),

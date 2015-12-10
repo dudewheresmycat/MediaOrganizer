@@ -29,6 +29,10 @@ public class MediaUtility {
 	public void pullTags(File[] filepaths) throws UnsupportedTagException, InvalidDataException, IOException{
 		for(int i = 0 ; i < filepaths.length;i++){
 			String filename = filepaths[i].getPath();
+			try{
+			if(!(filename.endsWith(".mp3")||filename.endsWith(".m4a"))){
+				throw new InvalidFileTypeException(filename);
+			}
 			Mp3File mp3file = new Mp3File(filename);
 			System.out.println("added: "+ i + ": "+filename);
 			String name = mp3file.getId3v2Tag().getTitle();
@@ -36,22 +40,24 @@ public class MediaUtility {
 			String genre = mp3file.getId3v2Tag().getGenreDescription();
 			String artist = mp3file.getId3v2Tag().getArtist();
 			String album = mp3file.getId3v2Tag().getAlbum();
-			
-			try{
 			if(filename.endsWith(".mp3")){
 				Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
+				media.setExtension(".mp3");
 				mediafiles.add(media);
 			}else if(filename.endsWith(".m4a")){
 				M4Amedia media = new M4Amedia(name,length,genre,artist,filename);
+				media.setExtension(".m4a");
 				mediafiles.add(media);
-			}else{
-				throw new InvalidFileTypeException(filename);
 			}
 			}catch(InvalidFileTypeException e){
-				System.out.println(e.getExtension(filename));
-				e.getLocalizedMessage();
+				System.out.print(e.getExtension(filename));
+				System.out.print(e.getLocalizedMessage());
 				
 			}
+			
+			
+			
+			
 		}
 		
 	}
