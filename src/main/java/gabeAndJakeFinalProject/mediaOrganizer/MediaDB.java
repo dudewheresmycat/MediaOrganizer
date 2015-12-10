@@ -40,7 +40,7 @@ public class MediaDB {
 		m.pullTags(m.pullMediaFromFolder());
 		ArrayList mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
-			MediaFile media = (Mp3media) mediafiles.get(i);
+			MediaFile media = (MediaFile) mediafiles.get(i);
 			addMediaStmt(conn, i, media.getName(), media.getLength(),media.getGenre(),media.getArtist(),
 					((Mp3media) media).getAlbum(), media.getFilename());
 			

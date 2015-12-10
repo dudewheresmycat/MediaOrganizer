@@ -37,13 +37,20 @@ public class MediaUtility {
 			String artist = mp3file.getId3v2Tag().getArtist();
 			String album = mp3file.getId3v2Tag().getAlbum();
 			
-			
+			try{
 			if(filename.endsWith(".mp3")){
 				Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
 				mediafiles.add(media);
 			}else if(filename.endsWith(".m4a")){
 				M4Amedia media = new M4Amedia(name,length,genre,artist,filename);
 				mediafiles.add(media);
+			}else{
+				throw new InvalidFileTypeException(filename);
+			}
+			}catch(InvalidFileTypeException e){
+				System.out.println(e.getExtension(filename));
+				e.getLocalizedMessage();
+				
 			}
 		}
 		
