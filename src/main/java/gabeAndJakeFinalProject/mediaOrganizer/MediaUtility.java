@@ -3,7 +3,7 @@ package gabeAndJakeFinalProject.mediaOrganizer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -11,7 +11,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 
 public class MediaUtility {
 	
-	
+	//REQ #10
 	private ArrayList<MediaFile> mediafiles = new ArrayList<>();
 	
 	
@@ -36,10 +36,11 @@ public class MediaUtility {
 			Mp3File mp3file = new Mp3File(filename);
 			System.out.println("added: "+ i + ": "+filename);
 			String name = mp3file.getId3v2Tag().getTitle();
-			double length = mp3file.getId3v2Tag().getLength();
+			double length = (double)mp3file.getId3v2Tag().getLength();
 			String genre = mp3file.getId3v2Tag().getGenreDescription();
 			String artist = mp3file.getId3v2Tag().getArtist();
 			String album = mp3file.getId3v2Tag().getAlbum();
+			//REQ #10
 			if(filename.endsWith(".mp3")){
 				Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
 				media.setExtension(".mp3");
@@ -50,6 +51,7 @@ public class MediaUtility {
 				mediafiles.add(media);
 			}
 			}catch(InvalidFileTypeException e){
+				// REQ #11
 				System.out.print(e.getExtension(filename));
 				System.out.print(e.getLocalizedMessage());
 				

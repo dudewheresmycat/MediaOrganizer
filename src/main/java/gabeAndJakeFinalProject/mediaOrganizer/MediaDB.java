@@ -18,18 +18,18 @@ public class MediaDB {
 		Connection conn = DriverManager.getConnection(Environment.DB_URL);
 	
 		System.out.println("Connected to database!");
-
+		//REQ #7
 		Statement stmt = conn.createStatement();
 		String dropTable = "drop table Media";
 		stmt.execute(dropTable);
 		System.out.println("Media table dropped.");
 		String createTable = "create table Media("
 				+ "id int not null primary key, " 
-				+ "name varchar(75), "
+				+ "name varchar(255), "
 				+ "length double, " 
-				+ "genre varchar(30), "
-				+ "artist varchar(30), "
-				+ "album varchar(40), "
+				+ "genre varchar(90), "
+				+ "artist varchar(90), "
+				+ "album varchar(90), "
 				+ "filename varchar(255) "
 				+ ")";
 		
@@ -41,18 +41,18 @@ public class MediaDB {
 		ArrayList<MediaFile> mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
 			MediaFile media = (MediaFile) mediafiles.get(i);
-			addMediaStmt(conn, i, media.getName(), media.getLength(),media.getGenre(),media.getArtist(),
+			addMediaStmt(conn, i, media.getName(), media.getLength(), media.getGenre(), media.getArtist(),
 					((Mp3media) media).getAlbum(), media.getFilename());
 			
-					
 		}
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 
 		String genre, String artist, String album, String filename) throws SQLException{
+		length=0;
 		Statement stmt = conn.createStatement();
-		String insertMedia = String.format("insert into Media (id, name, length, genre, artist, album, filename)"
-				+ " values (%d, '%s', %,.2f, '%s', '%s', '%s', '%s')", id, name, length, genre, artist, album, filename);
-		stmt.executeUpdate(insertMedia);
+		String insert = String.format("insert into Media (id, name, length, genre, artist, album, filename) "
+				+ "values (%d, '%s', %f, '%s', '%s', '%s', '%s')", id, name, length, genre, artist, album, filename);
+		stmt.executeUpdate(insert);
 		System.out.println("Mp3: "+id+ " added!");
 		
 	}

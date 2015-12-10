@@ -24,20 +24,18 @@
 	Work distribution:
 	--------------------------------------------------------------
 	Jake:
-	- Super utility class with methods 
-	- GUI controller class
-	- Main launch class and method
+	- utility class with methods
 	- Provide media files for the database
-	- Aesthetics/visuals/styling
 	- Manage class interfacing
-	- Media player launching
-	Gabe:
 	- Database initial setup
+	- String tokenizing and array management
 	- Create/catch/handle exceptions
+	Gabe:
+	- Connect database
+	- Media player
 	- Naming of program and classes
 	- Create tableview GUI elements, GUI features
-	- String tokenizing and array management
-	- Implement utility and super classes
+	- Implement utility classes
 	--------------------------------------------------------------
 	Timeline:
 	--------------------------------------------------------------

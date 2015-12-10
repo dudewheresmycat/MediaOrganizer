@@ -1,6 +1,7 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
 public class M4Amedia extends MediaFile{
+	//REQ #6
 	private String extension;
 	public M4Amedia(String name, double length, String genre,
 			String artist, String filename) {

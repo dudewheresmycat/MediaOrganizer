@@ -1,6 +1,7 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
 public class Mp3media extends MediaFile{
+	//REQ #6
 	private String extension;
 	private String album;
 	public Mp3media(String name, double length, String genre,

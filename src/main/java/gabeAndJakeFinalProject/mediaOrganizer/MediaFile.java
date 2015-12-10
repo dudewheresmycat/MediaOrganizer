@@ -1,7 +1,7 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
 public class MediaFile{
-	
+	//REQ #5
 	//id, name, length, genre, artist, filename
 	private String name;
 	private double length;
