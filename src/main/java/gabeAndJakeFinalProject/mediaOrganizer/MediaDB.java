@@ -2,14 +2,19 @@ package gabeAndJakeFinalProject.mediaOrganizer;
 
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 public class MediaDB {
-	public static void main(String[] args) throws SQLException{
+	public static void main(String[] args) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
+		
 		createDatabase();
 	}
 	
-	public static void createDatabase() throws SQLException{
+	public static void createDatabase() throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
 		Connection conn = DriverManager.getConnection(Environment.DB_URL);
 	
 		System.out.println("Connected to database!");
@@ -24,6 +29,7 @@ public class MediaDB {
 				+ "length double, " 
 				+ "genre varchar(30), "
 				+ "artist varchar(30), "
+				+ "album varchar(40), "
 				+ "filename varchar(255) "
 				+ ")";
 		
@@ -31,20 +37,24 @@ public class MediaDB {
 		System.out.println("Media table created.");
 		MediaUtility m = new MediaUtility();
 		
-		for(int i = 0 ; i < m.getMediafiles().size(); i++){
-			addMediaStmt(conn, i, m.getMediafiles().get(i).)
+		m.pullTags(m.pullMediaFromFolder());
+		ArrayList mediafiles = m.getMediafiles();
+		for(int i = 0 ; i < mediafiles.size() ; i ++){
+			MediaFile media = (Mp3media) mediafiles.get(i);
+			addMediaStmt(conn, i, media.getName(), media.getLength(),media.getGenre(),media.getArtist(),
+					((Mp3media) media).getAlbum(), media.getFilename());
+			
+					
 		}
-		
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 
-		String genre, String artist, String filename) throws SQLException{
+		String genre, String artist, String album, String filename) throws SQLException{
 		Statement stmt = conn.createStatement();
-		String insertMedia = String.format("insert into Media (id, name, length, genre, artist, filename)"
-				+ " values (%d, '%s', %,.2f, '%s', '%s', '%s')", id, name, length, genre, artist, filename);
+		String insertMedia = String.format("insert into Media (id, name, length, genre, artist, album, filename)"
+				+ " values (%d, '%s', %,.2f, '%s', '%s', '%s', '%s')", id, name, length, genre, artist, album, filename);
 		stmt.executeUpdate(insertMedia);
-		System.out.println("Mp3 added!");
+		System.out.println("Mp3: "+id+ " added!");
 		
 	}
-	
 	
 }

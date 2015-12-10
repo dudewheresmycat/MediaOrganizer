@@ -1,17 +1,15 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
-public class MediaFile {
+public class MediaFile{
 	
 	//id, name, length, genre, artist, filename
-	private int id;
 	private String name;
 	private double length;
 	private String genre;
 	private String artist;
 	private String filename;
 	
-	public MediaFile(int id, String name, double length, String genre, String artist, String filename){
-		this.id = id;
+	public MediaFile(String name, double length, String genre, String artist, String filename){
 		this.name = name;
 		this.length = length;
 		this.genre = genre;
@@ -19,40 +17,34 @@ public class MediaFile {
 		this.filename = filename;
 	}
 	
-	private int getId() {
-		return id;
-	}
-	private void setId(int id) {
-		this.id = id;
-	}
-	private String getName() {
+	public String getName() {
 		return name;
 	}
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
-	private double getLength() {
+	public double getLength() {
 		return length;
 	}
-	private void setLength(double length) {
+	public void setLength(double length) {
 		this.length = length;
 	}
-	private String getGenre() {
+	public String getGenre() {
 		return genre;
 	}
-	private void setGenre(String genre) {
+	public void setGenre(String genre) {
 		this.genre = genre;
 	}
-	private String getArtist() {
+	public String getArtist() {
 		return artist;
 	}
-	private void setArtist(String artist) {
+	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-	private String getFilename() {
+	public String getFilename() {
 		return filename;
 	}
-	private void setFilename(String filename) {
+	public void setFilename(String filename) {
 		this.filename = filename;
 	}
 	

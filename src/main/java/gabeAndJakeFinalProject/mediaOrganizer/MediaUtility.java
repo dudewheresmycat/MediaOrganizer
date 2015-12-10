@@ -13,22 +13,40 @@ public class MediaUtility {
 	
 	
 	private ArrayList<MediaFile> mediafiles = new ArrayList<>();
-	private ArrayList<File> filepath = new ArrayList<>();
 	
-	public void fillMediaFiles(){
-		mediafiles.add(new MediaFile(1,"",2,"","",""));
-	}
 	
-	public static File[] pullMediaFromFolder(){
+	
+	public File[] pullMediaFromFolder(){
 		File file = new File("G:/MediaUnsort");
 		 File[] a = file.listFiles();
+		 for(int i = 0; i < a.length; i++){
+			 System.out.println("added file:"+i);
+		 }
+		 
 		return a;
 	}
-	public static int pullMediaTags(String filename) throws UnsupportedTagException, InvalidDataException, IOException{
-		
+	
+	public void pullTags(File[] filepaths) throws UnsupportedTagException, InvalidDataException, IOException{
+		for(int i = 0 ; i < filepaths.length;i++){
+			String filename = filepaths[i].getPath();
 			Mp3File mp3file = new Mp3File(filename);
-			mp3file.getId3v2Tag().getLength();
-			return mp3file.getId3v2Tag().getLength();
+			System.out.println("added: "+ i + ": "+filename);
+			String name = mp3file.getId3v2Tag().getTitle();
+			double length = mp3file.getId3v2Tag().getLength();
+			String genre = mp3file.getId3v2Tag().getGenreDescription();
+			String artist = mp3file.getId3v2Tag().getArtist();
+			String album = mp3file.getId3v2Tag().getAlbum();
+			
+			
+			if(filename.endsWith(".mp3")){
+				Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
+				mediafiles.add(media);
+			}else if(filename.endsWith(".m4a")){
+				M4Amedia media = new M4Amedia(name,length,genre,artist,filename);
+				mediafiles.add(media);
+			}
+		}
+		
 	}
 
 	public ArrayList<MediaFile> getMediafiles() {
@@ -39,11 +57,4 @@ public class MediaUtility {
 		this.mediafiles = mediafiles;
 	}
 
-	public ArrayList<File> getFilepath() {
-		return filepath;
-	}
-
-	public void setFilepath(ArrayList<File> filepath) {
-		this.filepath = filepath;
-	}
 }
