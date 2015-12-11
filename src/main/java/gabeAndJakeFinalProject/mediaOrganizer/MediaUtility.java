@@ -58,10 +58,6 @@ public class MediaUtility {
 				System.out.print(e.getLocalizedMessage());
 				
 			}
-			
-			
-			
-			
 		}
 		
 	}

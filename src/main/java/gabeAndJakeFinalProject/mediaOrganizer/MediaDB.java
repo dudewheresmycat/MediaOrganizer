@@ -72,8 +72,9 @@ public class MediaDB {
 		ArrayList<MediaFile> mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
 			MediaFile media = (MediaFile) mediafiles.get(i);
-			addMediaStmt(conn, i, media.getName(), media.getLength(), media.getGenre(), media.getArtist(),
-					((Mp3media) media).getAlbum(), media.getFilename());
+			addMediaStmt(conn, i, media.getName().replace("'", ""), media.getLength(), 
+						media.getGenre().replace("'", ""), media.getArtist(),
+					((Mp3media) media).getAlbum().replace("'", ""), media.getFilename().replace("'", ""));
 			
 		}
 		return mediafiles;
