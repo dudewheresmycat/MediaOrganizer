@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.mpatric.mp3agic.InvalidDataException;
@@ -26,6 +27,8 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -34,7 +37,7 @@ public class MediaOrganizerController {
 
 	public ObservableList<Songs> data;
 	@FXML
-    private ListView<String> listView;
+	private ListView<String> listView;
 	@FXML
 	private TableColumn<Songs, String> artistColumn;
 
@@ -53,8 +56,7 @@ public class MediaOrganizerController {
 	@FXML
 	private TableView<Songs> tableView;
 
-	@FXML
-	private MediaView mediaView;
+	private MediaPlayer mediaPlayer;
 
 	@FXML
 	private Button pauseTrack;
@@ -67,100 +69,86 @@ public class MediaOrganizerController {
 
 	@FXML
 	private Button playTrack;
-	
-    @FXML
-    private Button refresh;
-    @FXML
-    private TextField folderToUse;
-    public void refreshButtonListener(ActionEvent event) throws UnsupportedTagException, InvalidDataException, SQLException, IOException{
-    	String filepath = folderToUse.getText();
-    	MediaDB.createDatabase(filepath);
-    	initialize();
-    }
-	
-	public void initialize(){
-		ObservableList<String> list = FXCollections.observableArrayList(MediaDB.getMedia());
-		listView.setItems(list);
-	}
-//	@Override
-//	public void initialize(URL fxml, ResourceBundle resources) {
-//		this.artistColumn.setCellValueFactory(new PropertyValueFactory<Songs, String>("artist"));
-//		this.albumColumn.setCellValueFactory(new PropertyValueFactory<Songs, String>("album"));
-//		this.genreColumn.setCellValueFactory(new PropertyValueFactory<Songs, String>("genre"));
-//		this.nameColumn.setCellValueFactory(new PropertyValueFactory<Songs, String>("title"));
-//		this.timeColumn.setCellValueFactory(new PropertyValueFactory<Songs, Duration>("duration"));
-//
-//	}
 
-//	@SuppressWarnings({ "unchecked", "rawtypes", "rawtypes" })
-//	public void buildData() {
-//		final String DB_URL ="jdbc:derby:db/Media/Media";
-//		Connection c;
-//		data = FXCollections.observableArrayList();
-//		try {
-//			c = DriverManager.getConnection(DB_URL);
-//			String SQL = "SELECT * FROM Media";
-//			ResultSet rs = c.createStatement().executeQuery(SQL);
-//			/**********************************
-//			 * TABLE COLUMN ADDED DYNAMICALLY *
-//			 **********************************/
-//			for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
-//				// We are using non property style for making dynamic table
-//				final int j = i;
-//				@SuppressWarnings("rawtypes")
-//				TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
-//				col.setCellValueFactory(
-//						new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-//							@SuppressWarnings({ "unchecked", "unchecked" })
-//							public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
-//								return new SimpleStringProperty(param.getValue().get(j).toString());
-//							}
-//						});
-//				tableView.getColumns().addAll(col);
-//				System.out.println("Column [" + i + "] ");
-//			}
-//			/********************************
-//			 * Data added to ObservableList *
-//			 ********************************/
-//			while (rs.next()) {
-//				// Iterate Row
-//				ObservableList<String> row = FXCollections.observableArrayList();
-//				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-//					row.add(rs.getString(i));
-//				}
-//				System.out.println("Row [1] added " + row);
-//				data.add((Songs) row);
-//			}
-//
-//			// FINALLY ADDED TO TableView
-//
-//			tableView.setItems(data);
-//
-//		} catch (Exception e) {
-//
-//			e.printStackTrace();
-//
-//			System.out.println("Error on Building Data");
-//
-//		}
-//	}
+	@FXML
+	private Button refresh;
+	@FXML
+	private TextField folderToUse;
+	private ArrayList<MediaFile> mediafiles;
+	private int playIndex = 0;
+	public void refreshButtonListener(ActionEvent event)
+			throws UnsupportedTagException, InvalidDataException, SQLException,
+			IOException {
+		String filepath = folderToUse.getText();
+		ArrayList<MediaFile> media =  MediaDB.createDatabase(filepath);
+		initialize(media);
+	}
+
+	public void initialize(ArrayList<MediaFile> media) {
+		mediafiles = media;
+		
+		ObservableList<String> list = FXCollections.observableArrayList(MediaDB
+				.getMedia());
+		listView.setItems(list);
+		playIndex=0;
+	}
+
 
 	public void playButtonListener(ActionEvent event) {
-		tableView.getSelectionModel().getSelectedIndex();
-		mediaView.getMediaPlayer().play();
+		if (mediaPlayer != null) {
+			mediaPlayer.stop();
+		}
+		
+		File source = new File(mediafiles.get(playIndex).getFilename());
+		System.out.println(source.toURI().toString());
+		Media media = new Media(source.toURI().toString());
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+
 	}
 
 	public void pauseButtonListener(ActionEvent event) {
-		mediaView.getMediaPlayer().pause();
+		if (mediaPlayer != null) {
+			if(mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED){
+				mediaPlayer.play();
+			}else{
+				mediaPlayer.pause();
+			}
+		}
 	}
 
 	public void nextTrackListener(ActionEvent event) {
+		if (mediaPlayer != null) {
+			mediaPlayer.stop();
+		}
+		if(playIndex >=mediafiles.size()){
+			playIndex = 0;
+		}else{
+			playIndex++;
+		}
+		File source = new File(mediafiles.get(playIndex).getFilename());
+		System.out.println(source.toURI().toString());
+		Media media = new Media(source.toURI().toString());
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
 	}
 
 	public void previousTrackListener(ActionEvent event) {
-
+		if (mediaPlayer != null) {
+			mediaPlayer.stop();
+		}
+		if(playIndex == 0){
+			playIndex = mediafiles.size()-1;
+		}else{
+			playIndex--;
+		}
+		
+		File source = new File(mediafiles.get(playIndex).getFilename());
+		System.out.println(source.toURI().toString());
+		Media media = new Media(source.toURI().toString());
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
 	}
-
-
 	
+
 }

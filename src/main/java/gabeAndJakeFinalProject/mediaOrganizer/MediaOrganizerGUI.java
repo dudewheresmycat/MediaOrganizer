@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 public class MediaOrganizerGUI extends Application {
@@ -22,7 +25,8 @@ public class MediaOrganizerGUI extends Application {
 		stage.setTitle("Tunes Library - A creation by Jake and Gabe");//REQ#1
 		stage.setScene(scene);
 		stage.show();
-
+		
+	     
 	}
 
 	public static void main(String[] args) {

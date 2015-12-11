@@ -9,19 +9,50 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 public class MediaDB {
-//	public static void main(String[] args) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
-//		
-//		createDatabase();
-//	}
-	
-	public static void createDatabase(String filepath) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
+	public static void main(String[] args) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
+		
+		createDatabase();
+	}
+	public static void createDatabase() throws SQLException{
+		Connection conn = DriverManager.getConnection(Environment.DB_URL);
+		
+		System.out.println("Connected to database!");
+		//REQ #7
+		Statement stmt = conn.createStatement();
+		String dropTable = "drop table Media";
+		try{
+		stmt.execute(dropTable);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		System.out.println("Media table dropped.");
+		String createTable = "create table Media("
+				+ "id int not null primary key, " 
+				+ "name varchar(255), "
+				+ "length double, " 
+				+ "genre varchar(90), "
+				+ "artist varchar(90), "
+				+ "album varchar(90), "
+				+ "filename varchar(255) "
+				+ ")";
+		
+		stmt.execute(createTable);
+		System.out.println("Media table created.");
+	}
+	public static ArrayList<MediaFile> createDatabase(String filepath) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
 		Connection conn = DriverManager.getConnection(Environment.DB_URL);
 	
 		System.out.println("Connected to database!");
 		//REQ #7
 		Statement stmt = conn.createStatement();
 		String dropTable = "drop table Media";
+		try{
 		stmt.execute(dropTable);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
 		System.out.println("Media table dropped.");
 		String createTable = "create table Media("
 				+ "id int not null primary key, " 
@@ -45,6 +76,7 @@ public class MediaDB {
 					((Mp3media) media).getAlbum(), media.getFilename());
 			
 		}
+		return mediafiles;
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 
 		String genre, String artist, String album, String filename) throws SQLException{
@@ -64,7 +96,7 @@ public class MediaDB {
 			
 			Statement stmt = conn.createStatement();
 			
-			ResultSet results = stmt.executeQuery("select id, name, length, genre, artist, album from Media");
+			ResultSet results = stmt.executeQuery("select id, name, length, genre, artist, album, filename from Media");
 			
 			
 			while(results.next()){

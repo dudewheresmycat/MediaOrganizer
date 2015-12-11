@@ -6,7 +6,7 @@ public class InvalidFileTypeException extends Exception{
 	// REQ #12
 	public InvalidFileTypeException(String filename){
 		
-		super(String.format("; is not a valid file type for the Media Organizer, skipping file %s", filename));
+		super(String.format("; is not a valid file type for the Media Organizer, skipping file %s\n", filename));
 	}
 	public String getExtension(String filename){
 		StringTokenizer st = new StringTokenizer(filename, ".");// REQ#2
