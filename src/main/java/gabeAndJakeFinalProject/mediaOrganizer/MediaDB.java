@@ -9,12 +9,12 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 public class MediaDB {
-	public static void main(String[] args) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
-		
-		createDatabase();
-	}
+//	public static void main(String[] args) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
+//		
+//		createDatabase();
+//	}
 	
-	public static void createDatabase() throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
+	public static void createDatabase(String filepath) throws SQLException, UnsupportedTagException, InvalidDataException, IOException{
 		Connection conn = DriverManager.getConnection(Environment.DB_URL);
 	
 		System.out.println("Connected to database!");
@@ -37,7 +37,7 @@ public class MediaDB {
 		System.out.println("Media table created.");
 		MediaUtility m = new MediaUtility();
 		
-		m.pullTags(m.pullMediaFromFolder());
+		m.pullTags(m.pullMediaFromFolder(filepath));
 		ArrayList<MediaFile> mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
 			MediaFile media = (MediaFile) mediafiles.get(i);

@@ -28,5 +28,8 @@
          </font>
       </Button>
       <ListView fx:id="listView" layoutX="11.0" layoutY="14.0" prefHeight="533.0" prefWidth="721.0" />
+      <TextField fx:id="folderToUse" layoutX="743.0" layoutY="176.0" prefHeight="37.0" prefWidth="228.0" promptText="G:/" text="G:/" />
+      <Label layoutX="743.0" layoutY="132.0" prefHeight="37.0" prefWidth="228.0" text="Folder to Pull From" />
+      <Button fx:id="refresh" layoutX="743.0" layoutY="231.0" mnemonicParsing="false" onAction="#refreshButtonListener" prefHeight="37.0" prefWidth="90.0" text="Refresh" />
    </children>
 </AnchorPane>

@@ -1,11 +1,16 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.media.MediaView;
 import javafx.util.Callback;
@@ -61,6 +67,16 @@ public class MediaOrganizerController {
 
 	@FXML
 	private Button playTrack;
+	
+    @FXML
+    private Button refresh;
+    @FXML
+    private TextField folderToUse;
+    public void refreshButtonListener(ActionEvent event) throws UnsupportedTagException, InvalidDataException, SQLException, IOException{
+    	String filepath = folderToUse.getText();
+    	MediaDB.createDatabase(filepath);
+    	initialize();
+    }
 	
 	public void initialize(){
 		ObservableList<String> list = FXCollections.observableArrayList(MediaDB.getMedia());

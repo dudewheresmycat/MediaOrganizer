@@ -16,8 +16,8 @@ public class MediaUtility {
 	
 	
 	
-	public File[] pullMediaFromFolder(){
-		File file = new File("G:/MediaUnsort");
+	public File[] pullMediaFromFolder(String filepath){
+		File file = new File(filepath);
 		 File[] a = file.listFiles();
 		 for(int i = 0; i < a.length; i++){
 			 System.out.println("added file:"+i);
@@ -33,6 +33,8 @@ public class MediaUtility {
 			if(!(filename.endsWith(".mp3")||filename.endsWith(".m4a"))){
 				throw new InvalidFileTypeException(filename);
 			}
+			// REQ #3 & REQ #4  
+			// possible to get half credit for implementing a library instead of a custom interface?
 			Mp3File mp3file = new Mp3File(filename);
 			System.out.println("added: "+ i + ": "+filename);
 			String name = mp3file.getId3v2Tag().getTitle();

@@ -1,6 +1,7 @@
 package gabeAndJakeFinalProject.mediaOrganizer;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ public class MediaOrganizerGUI extends Application {
 	//REQ #9
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		// Load the FXML file.
 		Parent parent = FXMLLoader.load(getClass().getResource("MediaOrganizer.fxml"));
 
