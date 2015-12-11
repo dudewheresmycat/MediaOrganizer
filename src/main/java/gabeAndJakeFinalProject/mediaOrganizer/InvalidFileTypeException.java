@@ -10,9 +10,15 @@ public class InvalidFileTypeException extends Exception{
 	}
 	public String getExtension(String filename){
 		StringTokenizer st = new StringTokenizer(filename, ".");// REQ#2
-		st.nextToken();
-		String fileExtension = st.nextToken();
-		return fileExtension;
+		if(st.countTokens()==2){
+			st.nextToken();
+			String fileExtension = st.nextToken();
+			return fileExtension;
+		}else{
+			return "folder";
+		}
+		
+		
 	}
 }
 // comment
