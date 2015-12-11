@@ -24,6 +24,7 @@ public class Songs implements Serializable {
 	private ReadOnlyStringProperty genre;
 	private ReadOnlyStringProperty title;
 	private ReadOnlyStringProperty duration;
+	private ReadOnlyStringProperty filename;
 
 	public Songs(URI uri) {
         if (uri == null) {

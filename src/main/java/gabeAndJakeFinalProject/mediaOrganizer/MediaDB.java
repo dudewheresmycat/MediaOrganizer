@@ -48,7 +48,6 @@ public class MediaDB {
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 
 		String genre, String artist, String album, String filename) throws SQLException{
-		length=0;
 		Statement stmt = conn.createStatement();
 		String insert = String.format("insert into Media (id, name, length, genre, artist, album, filename) "
 				+ "values (%d, '%s', %f, '%s', '%s', '%s', '%s')", id, name, length, genre, artist, album, filename);
@@ -56,5 +55,29 @@ public class MediaDB {
 		System.out.println("Mp3: "+id+ " added!");
 		
 	}
-	
+	public static ArrayList<String> getMedia(){
+
+		ArrayList<String> mediaInfo = new ArrayList<String>();
+		
+		try {
+			Connection conn = DriverManager.getConnection(Environment.DB_URL);
+			
+			Statement stmt = conn.createStatement();
+			
+			ResultSet results = stmt.executeQuery("select id, name, length, genre, artist, album from Media");
+			
+			
+			while(results.next()){
+				 mediaInfo.add(String.format("%d \t| \t%s \t\t| \t%.0f Seconds \t| \t%s \t| \t%s \t| \t%s\t", 
+						 results.getInt("id"), results.getString("name"),results.getDouble("length"),results.getString("genre"),
+						 results.getString("artist"),results.getString("album")));
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return mediaInfo;
+	}
 }

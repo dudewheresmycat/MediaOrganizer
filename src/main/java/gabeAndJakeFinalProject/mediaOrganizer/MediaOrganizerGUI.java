@@ -17,7 +17,7 @@ public class MediaOrganizerGUI extends Application {
 		Scene scene = new Scene(parent);
 
 		// Display our window, using the scene graph.
-		stage.setTitle("Tunes Escape - A creation by Jake and Gabe");//REQ#1
+		stage.setTitle("Tunes Library - A creation by Jake and Gabe");//REQ#1
 		stage.setScene(scene);
 		stage.show();
 

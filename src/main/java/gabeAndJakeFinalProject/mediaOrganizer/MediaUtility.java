@@ -36,7 +36,7 @@ public class MediaUtility {
 			Mp3File mp3file = new Mp3File(filename);
 			System.out.println("added: "+ i + ": "+filename);
 			String name = mp3file.getId3v2Tag().getTitle();
-			double length = (double)mp3file.getId3v2Tag().getLength();
+			double length = (double)mp3file.getLengthInSeconds();
 			String genre = mp3file.getId3v2Tag().getGenreDescription();
 			String artist = mp3file.getId3v2Tag().getArtist();
 			String album = mp3file.getId3v2Tag().getAlbum();
