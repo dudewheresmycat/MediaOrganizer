@@ -80,6 +80,10 @@ public class MediaOrganizerController {
 			throws UnsupportedTagException, InvalidDataException, SQLException,
 			IOException {
 		String filepath = folderToUse.getText();
+		if(filepath.contains("\\")){
+			filepath.replace("\\", "/");
+		}
+				
 		ArrayList<MediaFile> media =  MediaDB.createDatabase(filepath);
 		initialize(media);
 	}

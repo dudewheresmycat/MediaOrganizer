@@ -49,19 +49,20 @@ public class MediaDB {
 		String dropTable = "drop table Media";
 		try{
 		stmt.execute(dropTable);
+		System.out.println("Media table dropped.");
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		
-		System.out.println("Media table dropped.");
+		
 		String createTable = "create table Media("
 				+ "id int not null primary key, " 
-				+ "name varchar(255), "
+				+ "name varchar(1055), "
 				+ "length double, " 
-				+ "genre varchar(90), "
-				+ "artist varchar(90), "
-				+ "album varchar(90), "
-				+ "filename varchar(255) "
+				+ "genre varchar(255), "
+				+ "artist varchar(255), "
+				+ "album varchar(255), "
+				+ "filename varchar(555) "
 				+ ")";
 		
 		stmt.execute(createTable);
@@ -72,12 +73,47 @@ public class MediaDB {
 		ArrayList<MediaFile> mediafiles = m.getMediafiles();
 		for(int i = 0 ; i < mediafiles.size() ; i ++){
 			MediaFile media = (MediaFile) mediafiles.get(i);
-			addMediaStmt(conn, i, media.getName().replace("'", ""), media.getLength(), 
-						media.getGenre().replace("'", ""), media.getArtist(),
-					((Mp3media) media).getAlbum().replace("'", ""), media.getFilename().replace("'", ""));
+			//try{
+			addMediaStmt(conn, i, MediaDB.removedPunctuation(media.getName()), 
+					media.getLength(), 
+					MediaDB.removedPunctuation(media.getGenre()), 
+					MediaDB.removedPunctuation(media.getArtist()),
+					MediaDB.removedPunctuation(((Mp3media)media).getAlbum()),
+					MediaDB.removedPunctuation(media.getFilename()));
+			//}catch(Exception e){
+				//System.out.println("A Database exception happened there may be"
+					//	+ " invalid files in the folder...skipping: "+ media.getFilename());
+			//}
 			
 		}
 		return mediafiles;
+	}
+	public static String removePunctuationDB(String string){
+		if(string.contains("'")){
+			return string.replace("'", "");
+		}else{
+			return string;
+		}
+		
+	}
+	public static String removedPunctuation(String string){
+		if(string == null){
+			string = "empty";
+		}
+		char[] a = string.toCharArray();
+		char[] b = new char[a.length];
+		int n = 0;
+		for(int i = 0 ; i < a.length; i++){
+			if(Character.isLetter(a[i])){
+				b[n] = a[i];
+				n++;
+			}
+		}
+		char[] c = new char[n];
+		for(int i = 0 ; i < n; i++){
+			c[i] = b[i];
+		}
+		return new String(c);
 	}
 	public static void addMediaStmt(Connection conn, int id, String name, double length, 
 		String genre, String artist, String album, String filename) throws SQLException{

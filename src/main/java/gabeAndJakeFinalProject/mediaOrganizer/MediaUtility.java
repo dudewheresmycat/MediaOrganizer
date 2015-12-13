@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.UnsupportedTagException;
+import com.mpatric.mp3agic.*;
 
 public class MediaUtility {
 	
@@ -33,31 +30,46 @@ public class MediaUtility {
 			if(!(filename.endsWith(".mp3")||filename.endsWith(".m4a"))){
 				throw new InvalidFileTypeException(filename);
 			}
-			// REQ #3 & REQ #4  
-			// possible to get half credit for implementing a library instead of a custom interface?
-			Mp3File mp3file = new Mp3File(filename);
-			System.out.println("added: "+ i + ": "+filename);
-			String name = mp3file.getId3v2Tag().getTitle();
-			double length = (double)mp3file.getLengthInSeconds();
-			String genre = mp3file.getId3v2Tag().getGenreDescription();
-			String artist = mp3file.getId3v2Tag().getArtist();
-			String album = mp3file.getId3v2Tag().getAlbum();
-			//REQ #10
-			if(filename.endsWith(".mp3")){
-				Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
-				media.setExtension(".mp3");
-				mediafiles.add(media);
-			}else if(filename.endsWith(".m4a")){
-				M4Amedia media = new M4Amedia(name,length,genre,artist,filename);
-				media.setExtension(".m4a");
-				mediafiles.add(media);
-			}
+				// REQ #3 & REQ #4  
+				// possible to get half credit for implementing a library instead of a custom interface?
+				Mp3File mp3file = new Mp3File(filename);
+				System.out.println("added: "+ i + ": "+filename);
+				String name="empty";
+				double length=0; 
+				String genre="empty"; 
+				String artist="empty"; 
+				String album="empty";
+				
+				if(mp3file.hasId3v2Tag()){
+					try{
+					genre = mp3file.getId3v2Tag().getGenreDescription();
+					album = mp3file.getId3v2Tag().getAlbum(); 
+					name = mp3file.getId3v2Tag().getTitle();
+					artist = mp3file.getId3v2Tag().getArtist();
+					length = (double)mp3file.getLengthInSeconds();
+					}catch(Exception e){
+						System.out.println("An Array exception happened"
+								+ " invalid files in the folder or empty tags...skipping: "+filename);
+						name=filename.substring((filename.length()/2), filename.length());
+					}
+				//REQ #10
+				}
+				if(filename.endsWith(".mp3")){
+					Mp3media media = new Mp3media(name,length,genre,artist,album,filename);
+					media.setExtension(".mp3");
+					mediafiles.add(media);
+				}else if(filename.endsWith(".m4a")){
+					M4Amedia media = new M4Amedia(name,length,genre,artist,filename);
+					media.setExtension(".m4a");
+					mediafiles.add(media);
+				}
 			}catch(InvalidFileTypeException e){
 				// REQ #11
 				System.out.print(e.getExtension(filename));
 				System.out.print(e.getLocalizedMessage());
 				
 			}
+			
 		}
 		
 	}
